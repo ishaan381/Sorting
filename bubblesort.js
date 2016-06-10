@@ -5,9 +5,7 @@ var bubbleSort = function(arr) {
     var switchInThisLoop = false;
     for (var j=0; j<tracker; j++) {
       if (this.comparison(arr[j], arr[j+1])) {
-        var switcher = arr[j];
-        arr[j] = arr[j+1];
-        arr[j+1] = switcher;
+        switcher(arr, j)
         switchInThisLoop = true;
       }
     }
@@ -20,4 +18,10 @@ var bubbleSort = function(arr) {
 
 var comparison = function(j,j1) {
   return j > j1
+}
+
+var switcher = function(arr, j) {
+  var oldLeft = arr[j];
+  arr[j] = arr[j+1];
+  arr[j+1] = oldLeft;
 }

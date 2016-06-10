@@ -1,32 +1,24 @@
 function splitArray (arr) {
-  if (arr.length%2 === 0) {
-    return [arr.slice(0,arr.length/2),arr.slice(arr.length/2)]
-  } else {
-    return [arr.slice(0,(arr.length+1)/2),arr.slice((arr.length+1)/2)]
-  }
+  return [arr.slice(0, arr.length/2), arr.slice(arr.length/2)]
 }
 
-function merge (arr) {
-  var first = arr[0];
-  var second = arr[1];
+function merge (arr1, arr2) {
+  var first = 0;
+  var second = 0;
   var returnArr = [];
 
-  while (first.length || second.length) {
-    if (!first.length) {
-      returnArr.push(second.shift())
-    }
-    else if (!second.length) {
-      returnArr.push(first.shift());
+  while (first < arr1.length && second < arr2.length) {
+    if (arr1[first] <= arr2[second]) {
+      returnArr.push(arr1[first]);
+      first++
     }
     else {
-      if (first[0] > second [0]) {
-        returnArr.push(second.shift());
-      }
-      else {
-        returnArr.push(first.shift());
-      }
+      returnArr.push(arr2[second]);
+      second++;
     }
   }
+  for (; first < arr1.length; first++) {returnArr.push(arr1[first])};
+  for (; second < arr2.length; second++) {returnArr.push(arr2[second])};
 
   return returnArr;
 
@@ -35,19 +27,11 @@ function merge (arr) {
 function mergeSort (arr) {
   if (arr.length < 2) {
     return arr;
-  } else if (arr.length===2) {
-    if (!arr[0].length && !arr[1].length) {
-    var splits = splitArray(arr)
-    return merge(splits);
-    } 
-    else {
-      return merge([mergeSort(arr[0]), mergeSort(arr[1])])
-    }
-  }
+  } 
   else {
-    return mergeSort(splitArray(arr))
-  }
-
-}
+    var splits = splitArray(arr);
+    return merge(mergeSort(splits[0]), mergeSort(splits[1]));
+  };
+};
 
 
